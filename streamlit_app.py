@@ -1,4 +1,7 @@
 import streamlit
-streamlit.title("First streamlit app")
+streamlit.title("My Parents New Healthy dinner")
 
-streamlit.title("Menu")
+streamlit.header("Breakfast Menu")
+streamlit.text("Omega 3 & Blueberry Oatmeal")
+streamlit.text("Kale, Spinach & Rocket Smoothie")
+streamlit.text("Hard Bolied Free-Range egg")
