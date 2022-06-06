@@ -25,17 +25,22 @@ fruits_to_show = my_fruit_list.loc[fruits_selected]
 streamlit.dataframe(fruits_to_show)
 
 #new section to dispaly fruityvise api response
+
+
 streamlit.header('Fruityvise Fruit Advice')
-fruit_choice=streamlit.text_input('What fruit would you like information about?','Kiwi')
-streamlit.write('The user entered',fruit_choice)
+try:
+  fruit_choice=streamlit.text_input('What fruit would you like information about?')
+  if not fruit_choice
+    streamlit.error("Please select fruit to get information")
+    #streamlit.write('The user entered',fruit_choice)
+  else:
+    #import requests
+    fruityvise_response=requests.get("https://fruityvice.com/api/fruit/"+fruit_choice)
+    fruityvise_normalized=pandas.json_normalize(fruityvise_response.json())
+    streamlit.dataframe(fruityvise_normalized)
 
-#import requests
-fruityvise_response=requests.get("https://fruityvice.com/api/fruit/"+fruit_choice)
-
-
-
-fruityvise_normalized=pandas.json_normalize(fruityvise_response.json())
-streamlit.dataframe(fruityvise_normalized)
+except URLError as e:
+  streamlit.error()
 
 streamlit.stop()
 #import snowflake.connector
@@ -51,7 +56,5 @@ streamlit.dataframe(my_data_rows)
 #allow the user to add fruit to list
 add_my_fruit=streamlit.text_input('What fruit would you like add?','Jackfruit')
 streamlit.write('Thanks for adding',add_my_fruit)
-
-
 
 my_cur.execute("insert into pc_rivery_db.public.fruit_load_list values('from streamlit');");
